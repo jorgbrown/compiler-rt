@@ -282,13 +282,13 @@ class FuzzedDataProvider {
     if (std::numeric_limits<TS>::is_modulo)
       return static_cast<TS>(value);
 
-    // Avoid using implementation-defined unsigned to signer conversions.
+    // Avoid using implementation-defined unsigned to signed conversions.
     // To learn more, see https://stackoverflow.com/questions/13150449.
     if (value <= std::numeric_limits<TS>::max()) {
       return static_cast<TS>(value);
     } else {
       constexpr auto TS_min = std::numeric_limits<TS>::min();
-      return TS_min + static_cast<char>(value - TS_min);
+      return TS_min + static_cast<TS>(value - TS_min);
     }
   }
 
